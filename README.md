@@ -6,7 +6,7 @@
 ### 4. Mollo Mayta, Christian Harry
 ### 5. Turpo Torres, Gustavo Jonathan
 
-# Fisica Computacional
+# Fisica Computacional - MatLab
 ## 1. Movimiento lineal con aceleración contante
 ### - En la carpeta preg1
 ## 2. Movimiento Parabolico
