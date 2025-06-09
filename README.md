@@ -18,6 +18,9 @@
 ### - Doscuerpo: Simula el lanzamiento de una nave desde la Tierra, utilizando la contante gravitacional, el radio y masa de la tierra.
 ### - Tierra-Luna: Muerta la simulación orbital de la luna, utilizando la distancia promedio de la Luna a la Tierra y la velocidad promedio de la luna.
 ## 4. Movimientos de 3 cuerpos
-### - En la carpeta preg4
+### - En la carpeta preg4 se tiene los scripts:
+### - ax: Se define la función de aceleración en x para 4 cuerpos.
+### - ay: Se define la función de aceleración en y para 4 cuerpos.
+### - cuatro_cuerpos: Simula el movimiento de 4 cuerpos.
 ## 5. Movimiento oscilatorio
 ### - En la carpeta preg5
