@@ -1,6 +1,5 @@
 % EJERCICIO 1: Determinar el alcance mediante gráfica
 % Ecuación de trayectoria: y = x*tan(α₀) - (g*x²)/(2*v₀²*cos²(α₀))
-
 clear all; clc; close all;
 
 % Constantes y condiciones iniciales
@@ -9,19 +8,12 @@ v0 = 5;             % velocidad inicial (m/s)
 alpha0_deg = 60;    % ángulo inicial en grados
 alpha0 = alpha0_deg * pi/180;  % ángulo inicial en radianes
 
-fprintf('=== EJERCICIO 1: ALCANCE POR MÉTODO GRÁFICO ===\n');
-fprintf('Condiciones iniciales:\n');
-fprintf('v₀ = %.1f m/s\n', v0);
-fprintf('α₀ = %.0f°\n', alpha0_deg);
-fprintf('\n');
-
 % Componentes iniciales de velocidad
 v0x = v0 * cos(alpha0);
 v0y = v0 * sin(alpha0);
 
 % Cálculo analítico del alcance para referencia
 alcance_teorico = (v0^2 * sin(2*alpha0)) / g;
-fprintf('Alcance teórico (fórmula R = v₀²sin(2α)/g): %.6f m\n', alcance_teorico);
 
 % Generar puntos para la trayectoria usando la ecuación dada
 x_max = alcance_teorico * 1.2;  % Extender un poco más para visualizar mejor
@@ -41,7 +33,7 @@ if ~isempty(indices_positivos)
         x2 = x(ultimo_positivo + 1);
         y1 = y(ultimo_positivo);
         y2 = y(ultimo_positivo + 1);
-        
+
         % Encontrar donde y = 0
         alcance_grafico = x1 - y1 * (x2 - x1) / (y2 - y1);
     else
@@ -51,15 +43,13 @@ else
     alcance_grafico = 0;
 end
 
-fprintf('Alcance determinado gráficamente: %.6f m\n', alcance_grafico);
-fprintf('Error absoluto: %.6f m\n', abs(alcance_grafico - alcance_teorico));
-fprintf('Error relativo: %.4f%%\n', abs(alcance_grafico - alcance_teorico)/alcance_teorico*100);
-
 % Altura máxima
 h_max = max(y(y >= 0));
 x_h_max = x(find(y == h_max, 1));
-fprintf('\nAltura máxima: %.3f m\n', h_max);
-fprintf('Posición de altura máxima: %.3f m\n', x_h_max);
+
+% Error de cálculo
+error_absoluto = abs(alcance_grafico - alcance_teorico);
+error_relativo = abs(alcance_grafico - alcance_teorico)/alcance_teorico*100;
 
 % Gráfica de la trayectoria
 figure(1);
@@ -78,19 +68,57 @@ plot([x_h_max, x_h_max], [0, h_max], 'k--', 'LineWidth', 1);
 % Configuración de la gráfica
 xlabel('Distancia horizontal x (m)');
 ylabel('Altura y (m)');
-title(sprintf('Trayectoria del Proyectil (v₀=%.1f m/s, α₀=%.0f°)', v0, alpha0_deg));
-legend('Trayectoria', 'Lanzamiento', sprintf('Alcance = %.3f m', alcance_grafico), ...
-       sprintf('Altura máx = %.3f m', h_max), 'Location', 'northeast');
+title('EJERCICIO 1: ALCANCE POR MÉTODO GRÁFICO');
 grid on;
 axis equal;
 xlim([0, max(x)]);
 ylim([min(y), max(y)*1.1]);
 
-% Añadir texto con información
-text(alcance_grafico/2, h_max/2, ...
-     sprintf('Ecuación:\ny = x·tan(%.0f°) - \\frac{gx²}{2v₀²cos²(%.0f°)}', alpha0_deg, alpha0_deg), ...
-     'FontSize', 10, 'BackgroundColor', 'white', 'EdgeColor', 'black');
+% INFORMACIÓN COMPLETA EN EL GRÁFICO
+% Cuadro de texto con condiciones iniciales
+text_condiciones = sprintf(['CONDICIONES INICIALES:\n' ...
+    'v₀ = %.1f m/s\n' ...
+    'α₀ = %.0f°\n\n' ...
+    'ECUACIÓN UTILIZADA:\n' ...
+    'y = x·tan(α₀) - gx²/(2v₀²cos²(α₀))'], v0, alpha0_deg);
 
-fprintf('\n=== RESULTADO DEL EJERCICIO 1 ===\n');
-fprintf('El alcance determinado gráficamente es: %.3f m\n', alcance_grafico);
-fprintf('====================================\n');
+text(0.02, 0.98, text_condiciones, 'Units', 'normalized', ...
+     'FontSize', 10, 'BackgroundColor', 'white', 'EdgeColor', 'black', ...
+     'VerticalAlignment', 'top', 'FontWeight', 'bold');
+
+% Cuadro de texto con resultados principales
+text_resultados = sprintf(['RESULTADOS:\n' ...
+    'Alcance teórico: %.6f m\n' ...
+    'Alcance gráfico: %.6f m\n' ...
+    'Error absoluto: %.6f m\n' ...
+    'Error relativo: %.4f%%\n\n' ...
+    'Altura máxima: %.3f m\n' ...
+    'Posición h_máx: %.3f m'], ...
+    alcance_teorico, alcance_grafico, error_absoluto, error_relativo, h_max, x_h_max);
+
+text(0.98, 0.98, text_resultados, 'Units', 'normalized', ...
+     'FontSize', 10, 'BackgroundColor', 'yellow', 'EdgeColor', 'black', ...
+     'VerticalAlignment', 'top', 'HorizontalAlignment', 'right', 'FontWeight', 'bold');
+
+% Cuadro de texto con la respuesta final destacada
+text_respuesta = sprintf(['RESPUESTA FINAL:\n' ...
+    'El alcance determinado\n' ...
+    'gráficamente es:\n' ...
+    '%.3f m'], alcance_grafico);
+
+text(0.5, 0.15, text_respuesta, 'Units', 'normalized', ...
+     'FontSize', 14, 'BackgroundColor', 'red', 'EdgeColor', 'black', ...
+     'VerticalAlignment', 'middle', 'HorizontalAlignment', 'center', ...
+     'FontWeight', 'bold', 'Color', 'white');
+
+% Etiquetas de puntos importantes
+text(0, -0.1, 'Inicio', 'HorizontalAlignment', 'center', 'FontWeight', 'bold', 'Color', 'green');
+text(alcance_grafico, -0.1, sprintf('Alcance\n%.3f m', alcance_grafico), ...
+     'HorizontalAlignment', 'center', 'FontWeight', 'bold', 'Color', 'red');
+text(x_h_max, h_max + 0.1, sprintf('h_máx = %.3f m', h_max), ...
+     'HorizontalAlignment', 'center', 'FontWeight', 'bold', 'Color', 'magenta');
+
+% Leyenda personalizada
+legend('Trayectoria del proyectil', 'Punto de lanzamiento', 'Punto de impacto', ...
+       'Altura máxima', 'Línea de alcance', 'Línea de altura máxima', ...
+       'Location', 'northeast', 'FontSize', 9);
